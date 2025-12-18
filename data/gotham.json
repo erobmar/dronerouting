@@ -1,0 +1,37 @@
+{
+    "city_name": "Gotham City",
+    "description": "Ciudad pequeña, sí, aunque aquí viven Batman, Robin y el Jocker entre otros",
+    "max_battery": 500.0,
+
+    "nodes": [
+        { "id": "H",  "type": "hub",     "x": 0.0,  "y": 0.0 },
+        { "id": "C1", "type": "client", "x": 5.0,  "y": 2.0 },
+        { "id": "C2", "type": "client", "x": -3.0, "y": 4.0 },
+        { "id": "R1", "type": "recharge", "x": 1.0,  "y": 6.0 }
+    ],
+
+    "forbidden_zones": [
+        {
+            "id": "ZP1",
+            "polygon": [
+                { "x": 2.0, "y": 1.0 },
+                { "x": 4.0, "y": 1.0 },
+                { "x": 4.0, "y": 3.0 },
+                { "x": 2.0, "y": 3.0 }
+            ]
+        }
+    ],
+
+    "risk_zones": [
+        {
+            "id": "ZR1",
+            "risk_factor": 2.0,
+            "polygon": [
+                { "x": -1.0, "y": 2.0 },
+                { "x": 1.0,  "y": 2.0 },
+                { "x": 1.0,  "y": 5.0 },
+                { "x": -1.0, "y": 5.0 }
+            ]
+        }
+    ]
+}
