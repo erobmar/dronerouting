@@ -1,0 +1,83 @@
+{
+  "city_name": "Mordor",
+  "description": "15 clientes, 3 no-fly, 2 risk zones, recargas en columna central.",
+  "max_battery": 160.0,
+
+  "nodes": [
+    { "id": "H",  "type": "hub",      "x": 0.0,  "y": 0.0 },
+
+    { "id": "R1", "type": "recharge", "x": 6.0,  "y": 0.0 },
+    { "id": "R2", "type": "recharge", "x": 12.0, "y": 0.0 },
+    { "id": "R3", "type": "recharge", "x": 18.0, "y": 0.0 },
+    { "id": "R4", "type": "recharge", "x": 24.0, "y": 0.0 },
+
+    { "id": "C1",  "type": "client", "x": 3.0,  "y": 3.0 },
+    { "id": "C2",  "type": "client", "x": 3.0,  "y": -3.0 },
+    { "id": "C3",  "type": "client", "x": 7.0,  "y": 4.0 },
+    { "id": "C4",  "type": "client", "x": 7.0,  "y": -4.0 },
+    { "id": "C5",  "type": "client", "x": 11.0, "y": 3.0 },
+    { "id": "C6",  "type": "client", "x": 11.0, "y": -3.0 },
+    { "id": "C7",  "type": "client", "x": 15.0, "y": 5.0 },
+    { "id": "C8",  "type": "client", "x": 15.0, "y": -5.0 },
+    { "id": "C9",  "type": "client", "x": 19.0, "y": 3.0 },
+    { "id": "C10", "type": "client", "x": 19.0, "y": -3.0 },
+    { "id": "C11", "type": "client", "x": 23.0, "y": 4.0 },
+    { "id": "C12", "type": "client", "x": 23.0, "y": -4.0 },
+    { "id": "C13", "type": "client", "x": 27.0, "y": 3.0 },
+    { "id": "C14", "type": "client", "x": 27.0, "y": -3.0 },
+    { "id": "C15", "type": "client", "x": 30.0, "y": 0.0 }
+  ],
+
+  "forbidden_zones": [
+    {
+      "id": "NF1",
+      "polygon": [
+        { "x": 5.0, "y": -1.0 },
+        { "x": 6.5, "y": -1.0 },
+        { "x": 6.5, "y":  1.0 },
+        { "x": 5.0, "y":  1.0 }
+      ]
+    },
+    {
+      "id": "NF2",
+      "polygon": [
+        { "x": 13.0, "y": -2.0 },
+        { "x": 14.5, "y": -2.0 },
+        { "x": 14.5, "y":  2.0 },
+        { "x": 13.0, "y":  2.0 }
+      ]
+    },
+    {
+      "id": "NF3",
+      "polygon": [
+        { "x": 21.0, "y": 1.5 },
+        { "x": 22.5, "y": 1.5 },
+        { "x": 22.5, "y": 5.5 },
+        { "x": 21.0, "y": 5.5 }
+      ]
+    }
+  ],
+
+  "risk_zones": [
+    {
+      "id": "RZ1",
+      "risk_factor": 2.0,
+      "polygon": [
+        { "x": 6.5, "y": 2.0 },
+        { "x": 16.0, "y": 2.0 },
+        { "x": 16.0, "y": 6.5 },
+        { "x": 6.5, "y": 6.5 }
+      ]
+    },
+    {
+      "id": "RZ2",
+      "risk_factor": 1.7,
+      "polygon": [
+        { "x": 10.0, "y": -6.5 },
+        { "x": 20.0, "y": -6.5 },
+        { "x": 20.0, "y": -2.0 },
+        { "x": 10.0, "y": -2.0 }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "city_name": "Andorra La Vella",
+  "description": "25 clientes, 3 no-fly, 3 risk zones, recargas para escalado N=25.",
+  "max_battery": 600.0,
+
+  "nodes": [
+    { "id": "H",  "type": "hub",      "x": 0.0,  "y": 0.0 },
+
+    { "id": "R1", "type": "recharge", "x": 10.0, "y": 0.0 },
+    { "id": "R2", "type": "recharge", "x": 20.0, "y": 0.0 },
+    { "id": "R3", "type": "recharge", "x": 30.0, "y": 0.0 },
+    { "id": "R4", "type": "recharge", "x": 40.0, "y": 0.0 },
+    { "id": "R5", "type": "recharge", "x": 50.0, "y": 0.0 },
+    { "id": "R6", "type": "recharge", "x": 15.0, "y": 0.0 },
+    { "id": "R7", "type": "recharge", "x": 35.0, "y": 0.0 },
+    { "id": "R8", "type": "recharge", "x": 45.0, "y": 0.0 },
+
+    { "id": "C1",  "type": "client", "x": 3.0,  "y": 4.0 },
+    { "id": "C2",  "type": "client", "x": 3.0,  "y": -4.0 },
+    { "id": "C3",  "type": "client", "x": 7.0,  "y": 6.0 },
+    { "id": "C4",  "type": "client", "x": 7.0,  "y": -6.0 },
+    { "id": "C5",  "type": "client", "x": 11.0, "y": 4.0 },
+    { "id": "C6",  "type": "client", "x": 11.0, "y": -4.0 },
+    { "id": "C7",  "type": "client", "x": 15.0, "y": 7.0 },
+    { "id": "C8",  "type": "client", "x": 15.0, "y": -7.0 },
+    { "id": "C9",  "type": "client", "x": 19.0, "y": 4.0 },
+    { "id": "C10", "type": "client", "x": 19.0, "y": -4.0 },
+    { "id": "C11", "type": "client", "x": 23.0, "y": 6.0 },
+    { "id": "C12", "type": "client", "x": 23.0, "y": -6.0 },
+    { "id": "C13", "type": "client", "x": 27.0, "y": 4.0 },
+    { "id": "C14", "type": "client", "x": 27.0, "y": -4.0 },
+    { "id": "C15", "type": "client", "x": 31.0, "y": 7.0 },
+    { "id": "C16", "type": "client", "x": 31.0, "y": -7.0 },
+    { "id": "C17", "type": "client", "x": 35.0, "y": 4.0 },
+    { "id": "C18", "type": "client", "x": 35.0, "y": -4.0 },
+    { "id": "C19", "type": "client", "x": 39.0, "y": 6.0 },
+    { "id": "C20", "type": "client", "x": 39.0, "y": -6.0 },
+    { "id": "C21", "type": "client", "x": 43.0, "y": 4.0 },
+    { "id": "C22", "type": "client", "x": 43.0, "y": -4.0 },
+    { "id": "C23", "type": "client", "x": 47.0, "y": 6.0 },
+    { "id": "C24", "type": "client", "x": 47.0, "y": -6.0 },
+    { "id": "C25", "type": "client", "x": 52.0, "y": 0.0 }
+  ],
+
+"forbidden_zones": [
+  {
+    "id": "NF1",
+    "polygon": [
+      { "x": 9.0,  "y": 10.0 },
+      { "x": 11.0, "y": 10.0 },
+      { "x": 11.0, "y": 13.0 },
+      { "x": 9.0,  "y": 13.0 }
+    ]
+  },
+  {
+    "id": "NF2",
+    "polygon": [
+      { "x": 24.0, "y": -13.0 },
+      { "x": 26.0, "y": -13.0 },
+      { "x": 26.0, "y": -10.0 },
+      { "x": 24.0, "y": -10.0 }
+    ]
+  },
+  {
+    "id": "NF3",
+    "polygon": [
+      { "x": 37.0, "y": 10.0 },
+      { "x": 39.0, "y": 10.0 },
+      { "x": 39.0, "y": 14.0 },
+      { "x": 37.0, "y": 14.0 }
+    ]
+  }
+],
+
+
+  "risk_zones": [
+    {
+      "id": "RZ1",
+      "risk_factor": 2.0,
+      "polygon": [
+        { "x": 6.0, "y": 2.0 },
+        { "x": 18.0, "y": 2.0 },
+        { "x": 18.0, "y": 9.0 },
+        { "x": 6.0, "y": 9.0 }
+      ]
+    },
+    {
+      "id": "RZ2",
+      "risk_factor": 1.7,
+      "polygon": [
+        { "x": 12.0, "y": -9.0 },
+        { "x": 28.0, "y": -9.0 },
+        { "x": 28.0, "y": -2.0 },
+        { "x": 12.0, "y": -2.0 }
+      ]
+    },
+    {
+      "id": "RZ3",
+      "risk_factor": 1.4,
+      "polygon": [
+        { "x": 28.0, "y": 2.0 },
+        { "x": 45.0, "y": 2.0 },
+        { "x": 45.0, "y": 8.0 },
+        { "x": 28.0, "y": 8.0 }
+      ]
+    }
+  ]
+}

@@ -1,37 +1,77 @@
 {
-    "city_name": "Gotham City",
-    "description": "Ciudad pequeña, sí, aunque aquí viven Batman, Robin y el Jocker entre otros",
-    "max_battery": 500.0,
+  "city_name": "Gotham City",
+  "description": "Instancia valida con 10 clientes, 3 no-fly, 2 risk zones, y recargas.",
+  "max_battery": 120.0,
 
-    "nodes": [
-        { "id": "H",  "type": "hub",     "x": 0.0,  "y": 0.0 },
-        { "id": "C1", "type": "client", "x": 5.0,  "y": 2.0 },
-        { "id": "C2", "type": "client", "x": -3.0, "y": 4.0 },
-        { "id": "R1", "type": "recharge", "x": 1.0,  "y": 6.0 }
-    ],
+  "nodes": [
+    { "id": "H",  "type": "hub",      "x": 0.0,   "y": 0.0 },
 
-    "forbidden_zones": [
-        {
-            "id": "ZP1",
-            "polygon": [
-                { "x": 2.0, "y": 1.0 },
-                { "x": 4.0, "y": 1.0 },
-                { "x": 4.0, "y": 3.0 },
-                { "x": 2.0, "y": 3.0 }
-            ]
-        }
-    ],
+    { "id": "R1", "type": "recharge", "x": 4.0,   "y": 0.0 },
+    { "id": "R2", "type": "recharge", "x": 8.0,   "y": 0.0 },
+    { "id": "R3", "type": "recharge", "x": 12.0,  "y": 0.0 },
 
-    "risk_zones": [
-        {
-            "id": "ZR1",
-            "risk_factor": 2.0,
-            "polygon": [
-                { "x": -1.0, "y": 2.0 },
-                { "x": 1.0,  "y": 2.0 },
-                { "x": 1.0,  "y": 5.0 },
-                { "x": -1.0, "y": 5.0 }
-            ]
-        }
-    ]
+    { "id": "C1",  "type": "client",  "x": 2.0,   "y": 2.0 },
+    { "id": "C2",  "type": "client",  "x": 3.0,   "y": -2.0 },
+    { "id": "C3",  "type": "client",  "x": 6.0,   "y": 3.0 },
+    { "id": "C4",  "type": "client",  "x": 6.0,   "y": -3.0 },
+    { "id": "C5",  "type": "client",  "x": 9.0,   "y": 2.0 },
+    { "id": "C6",  "type": "client",  "x": 9.0,   "y": -2.0 },
+    { "id": "C7",  "type": "client",  "x": 13.0,  "y": 2.0 },
+    { "id": "C8",  "type": "client",  "x": 13.0,  "y": -2.0 },
+    { "id": "C9",  "type": "client",  "x": 16.0,  "y": 3.0 },
+    { "id": "C10", "type": "client",  "x": 16.0,  "y": -3.0 }
+  ],
+
+  "forbidden_zones": [
+    {
+      "id": "NF1",
+      "polygon": [
+        { "x": 4.5, "y": -1.0 },
+        { "x": 5.5, "y": -1.0 },
+        { "x": 5.5, "y":  1.0 },
+        { "x": 4.5, "y":  1.0 }
+      ]
+    },
+    {
+      "id": "NF2",
+      "polygon": [
+        { "x": 10.5, "y": -1.2 },
+        { "x": 11.5, "y": -1.2 },
+        { "x": 11.5, "y":  1.2 },
+        { "x": 10.5, "y":  1.2 }
+      ]
+    },
+    {
+      "id": "NF3",
+      "polygon": [
+        { "x": 14.5, "y": 1.0 },
+        { "x": 15.5, "y": 1.0 },
+        { "x": 15.5, "y": 3.5 },
+        { "x": 14.5, "y": 3.5 }
+      ]
+    }
+  ],
+
+  "risk_zones": [
+    {
+      "id": "RZ1",
+      "risk_factor": 2.0,
+      "polygon": [
+        { "x": 2.0, "y": 1.0 },
+        { "x": 7.0, "y": 1.0 },
+        { "x": 7.0, "y": 4.0 },
+        { "x": 2.0, "y": 4.0 }
+      ]
+    },
+    {
+      "id": "RZ2",
+      "risk_factor": 1.5,
+      "polygon": [
+        { "x": 9.0, "y": -4.0 },
+        { "x": 14.0, "y": -4.0 },
+        { "x": 14.0, "y": -1.0 },
+        { "x": 9.0, "y": -1.0 }
+      ]
+    }
+  ]
 }

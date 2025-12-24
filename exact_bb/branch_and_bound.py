@@ -10,8 +10,7 @@ class BranchAndBoundSolver:
         self.hub = hub
         
         self.clients = graph.clients
-        self.best_cost = None
-        self.best_solution: None
+
 
         self.pareto = {}
 
@@ -43,6 +42,7 @@ class BranchAndBoundSolver:
                           cost[2] + recharges_used)
             
             self._try_complete_solution(order, final_cost)
+            #self.best_solutions.append((order, final_cost))
             
             return
         
@@ -86,7 +86,7 @@ class BranchAndBoundSolver:
             dominates = (current_distance <= new_distance and
                          current_risk <= new_risk and
                          current_recharges <= new_recharges and
-                         current_battery <= battery_left and(
+                         current_battery >= battery_left and(
                              current_distance < new_distance or
                              current_risk < new_risk or
                              current_recharges < new_recharges or
@@ -95,7 +95,7 @@ class BranchAndBoundSolver:
             
             if dominates:
                 return True
-            return False
+        return False
         
 
     def _register_pareto(self, last_node, visited, cost, battery_left) -> None:
@@ -128,17 +128,17 @@ class BranchAndBoundSolver:
         for current_cost, current_battery in pareto_frontier:
             current_distance, current_risk, current_recharges = current_cost
         
-        new_dominates_current = (new_distance <= current_distance and
-                                 new_risk <= current_risk and
-                                 new_recharges <= current_recharges and
-                                 battery_left >= current_battery and(
-                                     new_distance < current_distance or
-                                     new_risk < current_risk or
-                                     new_recharges < current_recharges or
-                                     battery_left > current_battery
-                                 ))
-        if not new_dominates_current:
-            new_pareto_frontier.append((current_cost, current_battery))
+            new_dominates_current = (new_distance <= current_distance and 
+                                     new_risk <= current_risk and 
+                                     new_recharges <= current_recharges and
+                                     battery_left >= current_battery and(
+                                         new_distance < current_distance or 
+                                         new_risk < current_risk or 
+                                         new_recharges < current_recharges or 
+                                         battery_left > current_battery
+                                         ))
+            if not new_dominates_current:
+                new_pareto_frontier.append((current_cost, current_battery))
 
         new_pareto_frontier.append((cost, battery_left))
         self.pareto[key] = new_pareto_frontier
@@ -151,7 +151,7 @@ class BranchAndBoundSolver:
         # Caso 1: Está dominada
         for _, (dist, r, rc) in self.best_solutions:
             if (dist <= distance) and (r <= risk) and rc <= recharges_used:
-                if(dist <= distance) or (r < risk) or rc < recharges_used:
+                if(dist < distance) or (r < risk) or rc < recharges_used:
                     return # Dominada -> Se elimina
                 
         non_dominated = []
@@ -159,7 +159,7 @@ class BranchAndBoundSolver:
         for existing_order, (d,r,rc) in self.best_solutions:
             if not ((distance <= d) and (risk <= r) and (recharges_used <= rc) and
                     (distance < d) or (risk < r) or (recharges_used < rc)):
-                non_dominated.append(existing_order, (d,r,rc))
+                non_dominated.append((existing_order, (d,r,rc)))
             
         non_dominated.append((order, cost))
 
