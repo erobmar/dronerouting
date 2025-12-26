@@ -16,25 +16,26 @@ from common.graph import *
 Cost = Tuple[float, float, int]
 """Tupla que representa el coste de una ruta en términos de distancia, riesgo y recargas, respectivamente"""
 
+
 def greedy_weighted(
-        graph: Graph, 
-        hub: str, 
-        start_battery: float, 
-        w_distance: float= 1.0,
-        w_risk: float = 100.0,
-        w_recharges: float = 1000.0, 
-        ) -> Optional[Tuple[Tuple[str, ...], Cost]]:
+    graph: Graph,
+    hub: str,
+    start_battery: float,
+    w_distance: float = 1.0,
+    w_risk: float = 100.0,
+    w_recharges: float = 1000.0,
+) -> Optional[Tuple[Tuple[str, ...], Cost]]:
     """
     Construye una ruta mediante una heurística voraz basada en coste ponderado
-    
+
     En cada iteración, evalúa todos los clientes no visitados y selecciona aquel cuya transferencia
     factible minimiza una funcón de coste escalar que combina distancia, riesgo y número de recargas
     utilizando pesos configurables (w_distance, w_risk y w_recharges).
-    
-    Devuelve una tupla con el orden de visita de los clientes y el coste total o None si 
+
+    Devuelve una tupla con el orden de visita de los clientes y el coste total o None si
     no existe ruta factible
     """
-    
+
     remaining = set(graph.clients)
     order: List[str] = []
     last = hub
@@ -50,7 +51,7 @@ def greedy_weighted(
 
         for client in remaining:
             result = graph.transfer(last, client, battery)
-            
+
             if result is None:
                 continue
 
@@ -61,10 +62,10 @@ def greedy_weighted(
                 best_score = score
                 best_client = client
                 best_result = result
-            
+
         if best_client is None:
             return None
-        
+
         distance, risk, recharges_used, battery = best_result
         total_distance += distance
         total_risk += risk
@@ -77,12 +78,11 @@ def greedy_weighted(
     result = graph.transfer(last, hub, battery)
     if result is None:
         return None
-    
+
     distance, risk, recharges_used, battery = result
 
     total_distance += distance
     total_risk += risk
     total_recharges += recharges_used
-
 
     return tuple(order), (total_distance, total_risk, total_recharges)

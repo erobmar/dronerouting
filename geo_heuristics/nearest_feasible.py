@@ -2,7 +2,7 @@
 Heurística geométrica de Vecino más cercano factible
 
 Este módulo implementa una heurística constructiva que, partiendo del hub, selecciona
-iterativamente el cliente no visitado más cercano para el que exista una transferencia 
+iterativamente el cliente no visitado más cercano para el que exista una transferencia
 factible, continuando hasta visitar todos los clientes e intentando regresar al hub.
 
 Si en algún punto no existe un cliente factible, falla y devuelve None
@@ -14,14 +14,17 @@ from common.graph import *
 Cost = Tuple[float, float, int]
 """ Tupla que representa el coste de una ruta en términos de distancia, riesgo y recargas, respectivamente"""
 
-def nearest_feasible(graph: Graph, hub: str, start_battery: float) -> Optional[Tuple[Tuple[str, ...], Cost]]:
+
+def nearest_feasible(
+    graph: Graph, hub: str, start_battery: float
+) -> Optional[Tuple[Tuple[str, ...], Cost]]:
     """
     Construye una ruta utilizando la heurística del vecino más cercano factible
-    
-    En cada iteración se selecciona el cliente no visitado más cercano para el que exista 
+
+    En cada iteración se selecciona el cliente no visitado más cercano para el que exista
     transferencia factible usando el método transfer de la clase Graph.
-    
-    Devuelve una tupla con el orden de visita de los clientes y el coste total o None si 
+
+    Devuelve una tupla con el orden de visita de los clientes y el coste total o None si
     no existe ruta factible
     """
     # Inicializamos
@@ -56,10 +59,10 @@ def nearest_feasible(graph: Graph, hub: str, start_battery: float) -> Optional[T
                 chosen = client
                 chosen_result = result
                 break
-        
+
         if chosen is None:
             return None
-        
+
         distance, risk, recharges_used, battery = chosen_result
         total_distance += distance
         total_risk += risk
@@ -73,11 +76,10 @@ def nearest_feasible(graph: Graph, hub: str, start_battery: float) -> Optional[T
     result = graph.transfer(last, hub, battery)
     if result is None:
         return None
-    
+
     distance, risk, recharges_used, battery = result
     total_distance += distance
     total_risk += risk
     total_recharges += int(recharges_used)
-
 
     return tuple(order), (total_distance, total_risk, total_recharges)
