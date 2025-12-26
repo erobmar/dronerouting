@@ -1,17 +1,29 @@
+"""
+Heurística geométrica de Vecino más cercano factible
+
+Este módulo implementa una heurística constructiva que, partiendo del hub, selecciona
+iterativamente el cliente no visitado más cercano para el que exista una transferencia 
+factible, continuando hasta visitar todos los clientes e intentando regresar al hub.
+
+Si en algún punto no existe un cliente factible, falla y devuelve None
+"""
+
 from typing import List, Tuple, Optional
 from common.graph import *
 
-"""
-
-desde el nodo actual, ordenas clientes no visitados por distancia euclídea (o por distancia de transfer 
-si quieres) y eliges el primero factible (transfer != None). Repite hasta visitar todos y vuelve al hub.
-
-"""
-
 Cost = Tuple[float, float, int]
+""" Tupla que representa el coste de una ruta en términos de distancia, riesgo y recargas, respectivamente"""
 
 def nearest_feasible(graph: Graph, hub: str, start_battery: float) -> Optional[Tuple[Tuple[str, ...], Cost]]:
-
+    """
+    Construye una ruta utilizando la heurística del vecino más cercano factible
+    
+    En cada iteración se selecciona el cliente no visitado más cercano para el que exista 
+    transferencia factible usando el método transfer de la clase Graph.
+    
+    Devuelve una tupla con el orden de visita de los clientes y el coste total o None si 
+    no existe ruta factible
+    """
     # Inicializamos
     remaining = set(graph.clients)
     order: List[str] = []

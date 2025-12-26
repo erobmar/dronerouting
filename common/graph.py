@@ -1,3 +1,17 @@
+"""
+Módulo de grafo de navegación para la planificación de rutas con drones
+
+Este módulo define la clase Graph, que modela en forma de grafo el entorno
+de operación del dron. El grafo se construye a partir de una descripción en
+formato JSON.
+
+Las aristas del grafo representan trayectorias rectilíneas factibles entre pares
+de nodos, ponderadas por distancia, riesgo y consumo de batería. 
+
+Adicionalmente, se proporciona una función de transferencia que evalúa si existe
+un camino factible entre dos nodos.
+"""
+
 from common.geometry import (Point, Segment, Polygon, distance, segment_intersects_polygon)
 
 from common.io import JsonLoader
@@ -5,6 +19,15 @@ from common.io import JsonLoader
 import heapq
 
 class Graph:
+    """
+    Representa un grafo dirigido ponderado para la navegación del dron
+    
+    El grafo contiene los nodos del mapa (hub, clientes y recargas), los polígonos
+    de zonas de riesgo y exclusión aérea y las aristas dirigidas entre nodos factibles con
+    su coste asociado.
+    
+    Se proporcionan métodos asociados al trabajo con el grafo.    
+    """
     max_battery : float
     nodes: dict[str, Point]
     clients: list[str]
@@ -32,15 +55,35 @@ class Graph:
         self.risk_zones = risk_zones
         self.edges = edges
 
+
     def is_recharge(self, node: str) -> bool:
+        """
+        Indica si un nodo es punto de recarga
+        """
         return node in self.recharges
+
             
     def edge_cost(self, point_a: str, point_b: str):
+        """
+        Devuelve el coste de una arista
+        
+        El coste se expresa como una tupla (distancia, riesgo, consumo)
+        Si la arista no existe, devuelve None
+        """
         return self.edges.get(point_a,{}).get(point_b, None)
 
 
-
     def transfer(self, start: str, goal: str, battery_left: float):
+        """
+        Determina si es posible desplazarse de un nodo origen a un nodo destino
+        
+        Busca un camino factible para alcanzar el nodo destino desde el inicio, teniendo en
+        cuenta el consumo de batería y la posibilidad de recargarla. Se priorizan las soluciones
+        con un menor número de recargas.
+        
+        Devuelve una tupla con la distancia y riesgo acumulados, el número de recargas realizadas
+        y la batería restante al llegar a destino. Si no hya un camino factible devuelve None        
+        """
 
         # Creamos una cola de prioridades con los estados parciales
         priority_queue = [(0, 0.0, 0.0, start, battery_left)]
@@ -95,7 +138,15 @@ class Graph:
 
 # Construye un grafo desde un archivo JSON
 def build_from_json(path: str) -> Graph:
-
+    """
+    Construye un grafo a partir de un archivo JSON
+    
+    A partir de la información contenida en un archivo JSON válido se generan las aristas dirigidas
+    entre nodos cuya trayectoria no intersecta zonas prohibidas. Cada arista lleva su coste de
+    distancia, riesgo y consumo de batería asociado.
+    
+    Devuelve una instancia de Graph inicializada
+    """
     clients = []
     recharges = []
     hub = None
@@ -172,8 +223,6 @@ def build_from_json(path: str) -> Graph:
 
     graph_from_json = Graph(float(data["max_battery"]), nodes, clients, recharges, hub, forbidden_zones, risk_zones, graph)
     
-    # return graph, nodes
-
     return graph_from_json
 
 

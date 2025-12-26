@@ -1,3 +1,12 @@
+"""
+Ejecución automatizada de experimentos
+
+Este script recorre todas las instancias de datos en formato JSON, dentro del
+directorio /data, y aplica cada uno de los métodos implementados (si procede).
+Mide el tiempo de ejecución de cada uno de ellos y guarda los resultados en
+un archivo CSV dentro del directorio /experiments/results.
+"""
+
 from __future__ import annotations
 
 import csv
@@ -14,9 +23,16 @@ from metaheuristics.simulated_annealing import simulated_annealing
 Cost = tuple[float, float, int]
 
 def ensure_dirs(results_dir: Path) -> None:
+    """
+    Crea el directorio de salida si no existe
+    """
     results_dir.mkdir(parents=True, exist_ok=True)
 
 def timed(callable_function, *args, **kwargs):
+    """
+    Ejecuta una función y devuelve su salida junto con el tiempo de ejecución
+    """
+    
     t0 = time.perf_counter()
     out = callable_function(*args, **kwargs)
     t1 = time.perf_counter()
@@ -24,6 +40,13 @@ def timed(callable_function, *args, **kwargs):
 
 def add_row(rows, instance_name: str, n_clients: int, method: str,
             ok: bool, t: float, order, cost, frontier_size: int | None = None) -> None:
+    """
+    Añade una fila de resultados a la lista que posteriormente se escribirá en el CSV
+    
+    Normaliza los campos para que distintos métodos puedan compartir la misma estructura
+    de salida.
+    """
+    
     rows.append({
         "instance": instance_name,
         "n_clients": n_clients,
@@ -39,6 +62,14 @@ def add_row(rows, instance_name: str, n_clients: int, method: str,
 
 
 def main() -> None:
+    """
+    Función principal que ejecuta los experimentos
+    
+    Para cada isntancia, carga el grafo desde JSON, ejecuta cada uno de los métodos
+    (nearest feasible, greedy weighted, simulated annealing y exacto branch and bound
+    sólo para instancias pequeñas), registra el tiempo de ejecución de cada método con
+    cada instancia y guarda los resultados en un CSV.
+    """
     project_root = Path(__file__).resolve().parents[1]
     data_dir = project_root / "data"
     results_dir = project_root / "experiments" / "results"
@@ -76,11 +107,11 @@ def main() -> None:
         add_row(rows, json_path.name, len(graph.clients), "nearest_feasible", nf_res is not None, nf_time, nf_order, nf_cost)
         print(f"nearest feasible: ok={nf_res is not None} time={nf_time:.4f}s cost={nf_cost}")
         
-        # 2 greedy weigthed
+        # 2 greedy weighted
         (gw_res, gw_time) = timed(greedy_weighted, graph, hub, start_battery)
         gw_order = gw_res[0] if gw_res else None
         gw_cost = gw_res[1] if gw_res else None
-        add_row(rows, json_path.name, len(graph.clients), "greedy_weigthed", gw_res is not None, gw_time, gw_order, gw_cost)
+        add_row(rows, json_path.name, len(graph.clients), "greedy_weighted", gw_res is not None, gw_time, gw_order, gw_cost)
         print(f"greedy weighted: ok={gw_res is not None} time={gw_time:.4f}s cost={gw_cost}")
         
         # 3 SA (inicializa desde greedy si existe, si no desde nearest)

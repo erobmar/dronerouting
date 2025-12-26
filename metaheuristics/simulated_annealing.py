@@ -1,3 +1,13 @@
+"""
+Metaheurística de Simulated Annealing para planificación de rutas
+
+Este módulo implementa la metaheurística de Simulated Annealing que opera
+sobre el orden de visita de los clientes. Parte de una solución inicial factible
+y explora el espacio de permutaciones mediante intercambios de dos posiciones 
+aleatorias, aceptando soluciones peores de forma probabilística para escapar 
+de óptimos locales.
+"""
+
 from __future__ import annotations
 
 import math
@@ -7,6 +17,7 @@ from typing import Optional, Sequence, Tuple
 from common.graph import *
 
 Cost = Tuple[float, float, int]
+"""Tupla que representa el coste de una ruta en términos de distancia, riesgo y recargas, respectivamente"""
 
 def evaluate_order(graph: Graph,
                    hub: str,
@@ -15,25 +26,14 @@ def evaluate_order(graph: Graph,
                    ) -> Optional[Cost]:
     
     """
-    Docstring para evaluate_order
+    Evalúa la factibilidad y el coste de un orden de visita de clientes.
     
-    :param graph: Descripción
-    :type graph: Graph
-    :param hub: Descripción
-    :type hub: str
-    :param start_battery: Descripción
-    :type start_battery: float
-    :param order: Descripción
-    :type order: Sequence[str]
-    :return: Descripción
-    :rtype: Cost | None
-
-    Evalúa una permutación de clientes:
-    hub -> order[0] -> ... -> order[-1] -> hub
-
-    Devuelve (distance, risk, recharges_used) o None si es inviable (transfer devuelve None)
-
-
+    Dado un orden, el método intenta construir la ruta completa hub -> clientes -> hub
+    utilizando el método transfer de la clase Graph para cada salto. Si en algún punto la transferencia
+    no es factible, falla y devuelve None.
+    
+    Si todas las transferencias son factibles, acumula distancia, riesgo y recargas y las devuelve en
+    forma de tupla Cost.
     """
     battery = start_battery
     last_node = hub
@@ -71,7 +71,13 @@ def score_cost(cost: Cost,
                w_risk: float = 100.0,
                w_recharges: float = 1000.0,
                ) -> float:
-
+    """
+    Calcula un coste escalar a partir de un coste multiobjetivo
+    
+    
+    Combina distancia, riesgo y recargas mediante una suma ponderada en un valor escalar
+    que se utiliza como función objetivo en la metaheurística.
+    """
     distance, risk, recharges_used = cost
     return w_distance * distance + w_risk * risk + w_recharges * recharges_used
 
@@ -79,7 +85,7 @@ def score_cost(cost: Cost,
 def swap_neighbor(order: Sequence[str], random_neighbor: random.Random):
 
     """
-    Vecino por intercambio de dos posiciones
+    Genera un vecino intercambiando dos posiciones aleatorias
     """
 
     if len(order) < 2:
@@ -112,40 +118,13 @@ def simulated_annealing(graph: Graph,
                         ) -> Optional[Tuple[Tuple[str, ...], Cost]]:
     
     """
-    Docstring para simulated_annealing
+    Aplica la metaheurística de Simulated Annealing al orden de visita de clientes
     
-    :param graph: Descripción
-    :type graph: Graph
-    :param hub: Descripción
-    :type hub: str
-    :param start_battery: Descripción
-    :type start_battery: float
-    :param initial_order: Descripción
-    :type initial_order: Sequence[str]
-    :param seed: Descripción
-    :type seed: int
-    :param iteration: Descripción
-    :type iteration: int
-    :param t0: Descripción
-    :type t0: float
-    :param alpha: Descripción
-    :type alpha: float
-    :param w_distance: Descripción
-    :type w_distance: float
-    :param w_risk: Descripción
-    :type w_risk: float
-    :param w_recharges: Descripción
-    :type w_recharges: float
-    :return: Descripción
-    :rtype: Tuple[Tuple[str, ...], Cost] | None
+    Parte de un orden inicial factible y genera soluciones vecinas mediante intercambios
+    aleatorios de posiciones. La aceptación de soluciones peores se realiza mediante un
+    parámetro de temrperatura que disminuye a lo largo de las iteraciones.
     
-    Simulated Annealing sobre el orden de clientes
-    
-    - Estado: order (permutación)
-    - Vecino: swap(i,j)
-    - Aceptación: Metropolis
-    
-    Devuelve (best_order, best_cost) o None si initial_order es inviable        
+    Devuelve el mejor orden encontrado junto con su coste o None si el orden inicial no es factible.
     """
     
     random_neighbor = random.Random(seed)

@@ -1,35 +1,46 @@
+"""
+Punto de entrada principal del proyecto
+
+Este módulo ofrece un menú de consola sencillo para ejecutar el flujo principal.
+Permite lanzar los experimentos definidos en experiments/run_experiments.py y
+salir del programa.
+"""
+
 from __future__ import annotations
 
-from pathlib import Path
+from experiments.run_experiments import main as run_experiments_main
 
-from common.io import JsonLoader
-from common.geometry import *
-from common.graph import *
-from exact_bb.branch_and_bound import *
-from geo_heuristics.nearest_feasible import nearest_feasible
-from geo_heuristics.greedy_weighted import greedy_weighted
-from metaheuristics.simulated_annealing import simulated_annealing
 
 def main() -> None:
-   
- 
-    graph = build_from_json("data/gotham.json")
-
-    nf = nearest_feasible(graph, graph.hub, 100.0 )
-    gw = greedy_weighted(graph, graph.hub, 100.0)
-
-    print("nearest_feasible: ", nf)
-    print("greedy_weigthed: ", gw)
-
-    initial_order, _= greedy_weighted(graph, graph.hub, 100.0)
-    sa = simulated_annealing(graph, graph.hub, 100.0, initial_order, iterations=5000)
-    print("SA: ", sa)
-
-
-
-
-
-    return
+    """
+    Muestra un menú interactivo por consola y ejecuta la opción seleccionada
+    
+        1 - Ejecutar los experimentos, generando el correspondiente CSV
+        2 - Salir del programa
+    """
+    
+    while True:
+        print("\n-----------------------------------")
+        print("|    Bienvenido a DroneRouting    |")
+        print("|  V1.0   Autor: Eduardo Robledo  |")
+        print("-----------------------------------")
+        print("   Seleccione una opción: ")
+        print("\n      1) Ejecutar experimentos")
+        print("      2) Salir")
+            
+        option = input("").strip()
+            
+        if option == "1":
+            print("\n *** Ejecutando experimentos ***")
+            run_experiments_main()
+            print("\n Fin de los experimentos ")
+        elif option == "2":
+            print("\n Saliendo")
+            return
+        else:
+            print("\n Opción no válida. Pruebe de nuevo")
+    
     
 if __name__ == "__main__":
+
    main()
